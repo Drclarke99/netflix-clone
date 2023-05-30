@@ -13,11 +13,12 @@ export default function Login() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <Image
-        src="https://rb.gy/p2hphi"
-        fill
+        src="/netflix-background.jpg"
         className="-z-10 !hidden opacity-60 sm:!inline object-cover"
         alt="Background"
+        fill={true}
       />
 
       <img
