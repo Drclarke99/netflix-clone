@@ -7,12 +7,13 @@ import { Movie } from "@/typings";
 import Row from "@/components/Row";
 import useAuth from "@/hooks/useAuth";
 import { useRecoilValue } from "recoil";
-import { modalState } from "@/atoms/modalAtom";
+import { modalState, movieState } from "@/atoms/modalAtom";
 import Modal from "@/components/Modal";
 import Plans from "@/components/Plans";
 import { Product, getProducts } from "@stripe/firestore-stripe-payments";
 import payments from "@/lib/stripe";
 import useSubscription from "@/hooks/useSubscription";
+import useList from "@/hooks/useList";
 
 interface Props {
   netflixOriginals: Movie[];
@@ -42,6 +43,8 @@ export default function Home({
   const {loading, user} = useAuth();
   const showModal = useRecoilValue(modalState);
   const subscription = useSubscription(user);
+  const movie = useRecoilValue(movieState);
+  const list = useList(user?.uid);
 
   if (loading || subscription === null) return null;
 
@@ -50,7 +53,7 @@ export default function Home({
   return (
     <div
       className={`relative h-screen bg-gradient-to-b lg:h-[140vh] 
-      ${showModal && "!h-screen overflow-hidden"}`}
+      ${showModal && '!h-screen overflow-hidden'}`}
     >
       <Head>
         <title>Home - Netflix</title>
@@ -65,6 +68,7 @@ export default function Home({
           <Row title="Top Rated" movies={topRated} />
           <Row title="Action Thrillers" movies={actionMovies} />
           {/* My List Component */}
+          {list.length > 0 && <Row title="My List" movies={list} />}
           <Row title="Comedies" movies={comedyMovies} />
           <Row title="Scary Movies" movies={horrorMovies} />
           <Row title="Romance Movies" movies={romanceMovies} />
